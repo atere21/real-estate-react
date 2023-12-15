@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function OAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -20,24 +20,27 @@ export default function OAuth() {
       if (result?.user) {
         const { displayName, email, photoURL } = result.user;
 
+        // Log the photoURL to verify correctness
+        console.log('User Photo URL:', photoURL);
+
         const res = await fetch('/api/auth/google', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: displayName,
-            email,
-            photo: photoURL,
+            name: result.user.displayName,
+            email: result.user.displayName,
+            photo: result.user.photoURL,
           }),
         });
 
         if (res.ok) {
           const data = await res.json();
           dispatch(signInSuccess(data));
-          navigate('/');
+          navigate('/dashboard');
         } else {
-          throw new Error('Failed to authenticate user with server');
+          throw new Error('Failed to authenticate user');
         }
       } else {
         throw new Error('User information not available');

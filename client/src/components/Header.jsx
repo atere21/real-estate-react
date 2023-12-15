@@ -38,7 +38,8 @@ export default function HeaderBar() {
                 <img className='rounded-full h-7 w-8 object-cover'
                   src={currentUser.avatar} alt='profile' />
               ) : (
-                <Link to="/signin" className='text-slate-700 hover:underline'>Sign In</Link>
+                <Link to="/signin"
+                 className='text-slate-700 hover:underline'>Sign In</Link>
               )}
             </Link>
           </li>
